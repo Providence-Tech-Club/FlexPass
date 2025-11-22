@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import RequestForm
-from .models import Classroom, Request
+from .models import Room, Request
 
 
 def index(request):
@@ -20,8 +20,8 @@ def request_list(request):
 
 def send_request(
     student,
-    current_room: Classroom,
-    destination: Classroom,
+    current_room: Room,
+    destination: Room,
     reason: str,
     round_trip: bool,
 ) -> str:
@@ -54,7 +54,7 @@ def approve_request():
 @login_required()
 def request(request):
     destination_room_id = request.GET.get("destination")
-    destination = Classroom.objects.get(pk=destination_room_id)
+    destination = Room.objects.get(pk=destination_room_id)
 
     if request.method == "POST":
         form = RequestForm(request.POST)
@@ -64,14 +64,14 @@ def request(request):
 
             current_room_id = request.user.student.current_location
 
-            current_room = Classroom.objects.get(pk=current_room_id)
+            current_room = Room.objects.get(pk=current_room_id)
 
             status = send_request(
                 request.user.student, current_room, destination, reason, round_trip
             )
 
             encoded_params = urlencode({"status": status})
-            return redirect(f"/classroom/rooms?{encoded_params}")
+            return redirect(f"/room?{encoded_params}")
     else:
         form = RequestForm()
 
@@ -80,7 +80,7 @@ def request(request):
 
 @login_required()
 def room_list(request):
-    rooms = Classroom.objects.all()
+    rooms = Room.objects.all()
     context = {"rooms": rooms}
 
     if request.method == "POST":
@@ -94,7 +94,7 @@ def room_list(request):
             # "current_room_id": current_room_id,
             "destination": destination_room_id,
         })
-        return redirect(f"/classroom/request?{encoded_params}")
+        return redirect(f"/room/request?{encoded_params}")
     elif request.method == "GET":
         status = request.GET.get("status")
         context["status"] = status

@@ -34,15 +34,19 @@ ALLOWED_HOSTS = ["127.0.0.1", "*"]
 INSTALLED_APPS = [
     "tailwind",
     "theme",
-    "classroom.apps.ClassroomConfig",
-    "home.apps.HomeConfig",
-    "user.apps.UserConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Users
+    "home.apps.HomeConfig",
+    "users",
+    "students",
+    "moderators",
+    "rooms",
 ]
 
 MIDDLEWARE = [
@@ -135,8 +139,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-LOGIN_URL = "/accounts/login/"
-LOGIN_REDIRECT_URL = "/"
+# User
+AUTH_USER_MODEL = "users.CustomUser"
+# LOGIN_URL = "/accounts/login/"
+# LOGIN_REDIRECT_URL = "/"
 
 # Tailwind
 TAILWIND_APP_NAME = "theme"
