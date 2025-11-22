@@ -1,13 +1,14 @@
 import uuid
 from urllib.parse import urlencode
 
-from django.contrib.admin.views.decorators import staff_member_required
+# from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import RequestForm
-from .models import Room, Request
+from .models import Request, Room
+from .utils import send_request
 
 
 def index(request):
@@ -16,39 +17,6 @@ def index(request):
 
 def request_list(request):
     return render(request, "request_list.html")
-
-
-def send_request(
-    student,
-    current_room: Room,
-    destination: Room,
-    reason: str,
-    round_trip: bool,
-) -> str:
-    if len(destination.current_students) >= destination.max_students:
-        return "failed"
-
-    if student.id in destination.current_students:
-        return "failed"
-
-    request = Request.objects.create(
-        requesting_student=student.id,
-        destination=destination.id,
-        reason=reason,
-        round_trip=round_trip,
-    )
-
-    current_room.active_requests.add(request)
-    destination.current_students.append(student.id)
-    destination.save()
-    student.active_request = request
-    student.save()
-
-    return "success"
-
-
-def approve_request():
-    pass
 
 
 @login_required()
@@ -83,20 +51,22 @@ def room_list(request):
     rooms = Room.objects.all()
     context = {"rooms": rooms}
 
-    if request.method == "POST":
-        destination_room_id = uuid.UUID(request.POST.get("room_id"))
-        # destination = Classroom.objects.get(pk=room_id)
-
-        # current_room_id = request.user.student.current_location
-        # current_room = Classroom.objects.get(pk=current_room_id)
-
-        encoded_params = urlencode({
-            # "current_room_id": current_room_id,
-            "destination": destination_room_id,
-        })
-        return redirect(f"/room/request?{encoded_params}")
-    elif request.method == "GET":
-        status = request.GET.get("status")
-        context["status"] = status
-
+    # if request.method == "POST":
+    #     destination_room_id = uuid.UUID(request.POST.get("room_id"))
+    #     # destination = Classroom.objects.get(pk=room_id)
+    #
+    #     # current_room_id = request.user.student.current_location
+    #     # current_room = Classroom.objects.get(pk=current_room_id)
+    #
+    #     encoded_params = urlencode(
+    #         {
+    #             # "current_room_id": current_room_id,
+    #             "destination": destination_room_id,
+    #         }
+    #     )
+    #     return redirect(f"/room/request?{encoded_params}")
+    # elif request.method == "GET":
+    #     status = request.GET.get("status")
+    #     context["status"] = status
+    #
     return render(request, "room_list.html", context)
