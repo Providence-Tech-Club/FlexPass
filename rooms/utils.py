@@ -16,7 +16,7 @@ def send_request(
 
     request = Request.objects.create(
         requesting_student=student.id,
-        destination=destination.id,
+        destination=destination,
         reason=reason,
         round_trip=round_trip,
     )

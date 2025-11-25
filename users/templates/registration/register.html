@@ -1,10 +1,54 @@
 {% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
 {% block content %}
-    <h1>Register</h1>
+<div class="card bg-base-300 w-xs md:w-sm shadow-md mt-5">
+<div class="card-body">
+    <h1 class="card-title">Register</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
+        <!-- {{ form.as_p }} -->
+
+        <form class="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+            <fieldset class="fieldset">
+                <label class="label">Email</label>
+                <input type="email" class="input validator w-auto" placeholder="Email" required />
+                <p class="validator-hint hidden">Required</p>
+            </fieldset>
+
+            <label class="fieldset">
+                <span class="label">Password</span>
+                {{ form.password.tag }}
+                <input type="password" class="input validator w-auto" placeholder="Password" required />
+                <span class="validator-hint hidden">Required</span>
+            </label>
+
+        </form>
+
+        <!-- <div class="form-group other-reason-container input my-2"> -->
+        <!--     {{ form.username.label_tag }} -->
+        <!--     {{ form.username }} -->
+        <!-- </div> -->
+        <!---->
+        <!-- <div class="form-group other-reason-container input my-2"> -->
+        <!--     {{ form.password.label_tag }} -->
+        <!--     {{ form.password }} -->
+        <!-- </div> -->
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
+        <div class="divider my-1"></div>
+
+        <div class="grid grid-cols-2">
+            <a href="{% url 'login' %}" class="link link-primary justify-start self-center">Login?</a>
+            <div class="card-actions justify-end">
+                <button class="btn btn-primary" type="submit">Register</button>
+            </div>
+        </div>
     </form>
-    <a href="/accounts/login">Login?</a>
+</div>
+</div>
 {% endblock content %}

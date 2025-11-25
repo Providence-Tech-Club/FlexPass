@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     # Users
     "home.apps.HomeConfig",
     "users",
@@ -141,8 +140,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # User
 AUTH_USER_MODEL = "users.CustomUser"
-# LOGIN_URL = "/accounts/login/"
-# LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = "/"
 
 # Tailwind
 TAILWIND_APP_NAME = "theme"

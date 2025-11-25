@@ -1,50 +1,48 @@
 {% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+    {% block title %}Login{% endblock %}
 
-{% block content %}
-<h1>Login</h1>
-<div class="card bg-base-300 w-96 shadow-md mt-5">
-<div class="card-body">
-    <form method="post">
-        {% csrf_token %}
-        <!-- {{ form.as_p }} -->
+    {% block content %}
+    <div class="card bg-base-300 w-xs md:w-sm shadow-md mt-5">
+        <div class="card-body">
+            <h1 class="card-title">Login</h1>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
 
-        <form class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-            <fieldset class="fieldset">
-                <label class="label">Email</label>
-                <input type="email" class="input validator" placeholder="Email" required />
-                <p class="validator-hint hidden">Required</p>
-            </fieldset>
+                {% if form.non_field_errors %}
+                <div class="alert alert-error p-2 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
 
-            <label class="fieldset">
-                <span class="label">Password</span>
-                {{ form.password.tag }}
-                <input type="password" class="input validator" placeholder="Password" required />
-                <span class="validator-hint hidden">Required</span>
-            </label>
+                <fieldset class="fieldset">
+                    <label class="label">Email</label>
+                    <input name="email" type="email" class="input validator w-auto" placeholder="Email" required />
+                    <p class="validator-hint hidden">Required</p>
+                </fieldset>
 
-        </form>
+                <label class="fieldset">
+                    <span class="label">Password</span>
+                    <input name="password" type="password" class="input validator w-auto" placeholder="Password" required />
+                    <span class="validator-hint hidden">Required</span>
+                </label>
 
-        <!-- <div class="form-group other-reason-container input my-2"> -->
-        <!--     {{ form.username.label_tag }} -->
-        <!--     {{ form.username }} -->
-        <!-- </div> -->
-        <!---->
-        <!-- <div class="form-group other-reason-container input my-2"> -->
-        <!--     {{ form.password.label_tag }} -->
-        <!--     {{ form.password }} -->
-        <!-- </div> -->
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% endif %}
 
-        {% if request.GET.next %}
-            <input type="hidden" name="next" value="{{ request.GET.next }}">
-        {% endif %}
+                <div class="divider my-1"></div>
 
-        <div class="card-actions justify-end">
-            <button class="btn btn-primary" type="submit">Log In</button>
+                <div class="grid grid-cols-2">
+                    <a href="{% url 'register' %}" class="link link-primary justify-start self-center">Register?</a>
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary" type="submit">Log In</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
-</div>
-<a href="/accounts/register">Register?</a>
-{% endblock content %}
+    </div>
+    {% endblock content %}
