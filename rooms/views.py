@@ -4,7 +4,6 @@ from urllib.parse import urlencode
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-import logging
 
 from .forms import RequestForm
 from .models import Room
@@ -24,28 +23,19 @@ def request(request):
     destination_id = request.GET.get("destination")
     destination = Room.objects.get(pk=destination_id)
 
-    # print(request.user.Student)
-
     if request.method == "POST":
         form = RequestForm(request.POST)
         if form.is_valid():
             reason = form.get_reason()
             round_trip = form.clean()["round_trip"]
 
-            # logging.warning(request.user.student_user)
             current_room = request.user.student_user.current_location
 
-            print(current_room)
-            # return
-
-            # current_room = Room.objects.get(pk=current_room_id)
-
-            status = send_request(
+            success = send_request(
                 request.user.student_user, current_room, destination, reason, round_trip
             )
 
-            # print(current_room)
-            encoded_params = urlencode({"status": status})
+            encoded_params = urlencode({"status": "success" if success else "failed"})
             return redirect(f"/rooms?{encoded_params}")
     else:
         form = RequestForm()

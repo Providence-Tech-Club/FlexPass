@@ -4,6 +4,7 @@ A system for managing students during flex times, and coordinating hall passes f
 
 <!--toc:start-->
 - [Project: PCHS FlexPass App](#project-pchs-flexpass-app)
+  - [Task List](#task-list)
   - [Setup Project](#setup-project)
     - [Prerequisites](#prerequisites)
     - [Notes](#notes)
@@ -13,6 +14,24 @@ A system for managing students during flex times, and coordinating hall passes f
     - [Run the database](#run-the-database)
     - [Run the website](#run-the-website)
 <!--toc:end-->
+
+## Task List
+
+- User
+  - [ ] Email Registration
+  - [ ] Account Page
+- Moderator
+  - [ ] Registration Page
+  - [ ] Requests Page
+    - [ ] Approve/Deny Request
+  - [ ] Room Page
+  - [ ] Student Lookup
+- Student
+  - [x] Registration Page
+  - [ ] Room List Page
+    - [ ] Favorite Rooms
+    - [ ] Filter & Sort Rooms
+  - [ ] Request Status
 
 ## Setup Project
 

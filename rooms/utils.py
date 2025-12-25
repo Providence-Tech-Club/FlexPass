@@ -1,18 +1,19 @@
 from .models import Request, Room
+from students.models import Student
 
 
 def send_request(
-    student,
+    student: Student,
     current_room: Room,
     destination: Room,
     reason: str,
     round_trip: bool,
-) -> str:
+) -> bool:
     if destination.current_students.count() >= destination.max_students:
-        return "failed"
+        return False
 
     if destination.current_students.filter(id=student.id).exists():
-        return "failed"
+        return False
 
     request = Request.objects.create(
         requesting_student=student,
@@ -23,12 +24,21 @@ def send_request(
 
     current_room.active_requests.add(request)
     destination.current_students.add(student)
-    destination.save()
+    # destination.save()
     student.active_request = request
-    student.save()
+    # student.save()
 
-    return "success"
+    return True
 
 
-def approve_request():
-    pass
+def approve_request(
+    request: Request,
+):
+    request.approved = True
+    request.requesting_student.active_request = None
+
+
+def deny_request(
+    request: Request,
+):
+    request.requesting_student.active_request = None
