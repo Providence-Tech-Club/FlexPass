@@ -43,7 +43,7 @@
             {% csrf_token %}
             <div class="flex justify-between">
                 <h2 class="card-title text-gold">{{ room.name }}</h2>
-                <h3 class="text-right justify-right self-center">{{ room.moderator.last_name }}</h3>
+                <h3 class="text-right justify-right self-center">{{ room.moderator.user.last_name }}</h3>
             </div>
             
             <div class="flex my-2">
@@ -56,13 +56,13 @@
 
             <div class="card-actions justify-end my-2 grid grid-cols-2">
             <input type="hidden" name="room_id" value="{{ room.id }}">
-            {% if user.student.active_request.destination == room %}
+            {% if user.student_user_user.active_request.destination == room %}
                 <strong class="text-sm text-center align-middle">Pending Request</strong>
                 <button class="btn btn-primary" disabled>Request</button>
-            {% elif user.student.id in room.current_students %}
+            {% elif user.student_user.id in room.current_students %}
                 <strong class="text-sm text-center self-center">Current Room</strong>
                 <button class="btn btn-primary" disabled>Request</button>
-            {% elif user.student.active_request %}
+            {% elif user.student_user.active_request %}
                 <div></div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif students >= room.max_students %}
@@ -71,7 +71,7 @@
             {% elif room.open_room == True %}
                 <div></div>
                 <button class="btn btn-primary" type="submit" value="{{ room.name }}">Request</button>
-            {% elif user.student.id in room.allowed_students %}
+            {% elif user.student_user.id in room.allowed_students %}
                 <strong class="text-sm text-center self-center">You have special access to this room</strong>
                 <button class="btn btn-primary" type="submit">Request</button>
             {% else %}

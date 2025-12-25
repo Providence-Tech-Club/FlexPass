@@ -1,7 +1,9 @@
+from .forms import AuthenticationForm, RegistrationForm
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
+import logging
 
-from .forms import RegistrationForm, AuthenticationForm
+logger = logging.getLogger(__name__)
 
 
 def register(request):
@@ -9,11 +11,16 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect("/")
+
+            if user:
+                login(request, user)
+                return redirect("/")
+            else:
+                form.add_error("join_code", "Invalid Join Code")
     else:
         form = RegistrationForm()
-    return render(request, "registration/register.html", {"form": form})
+
+    return render(request, "register.html", {"form": form})
 
 
 def email_login(request):
@@ -22,8 +29,8 @@ def email_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("/")  # change this to your desired success URL
+            return redirect("/")
     else:
         form = AuthenticationForm(request)
 
-    return render(request, "registration/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})

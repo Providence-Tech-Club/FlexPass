@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import CustomUser
+from rooms.models import Room
+from students.models import Student
 
 
 class RegistrationForm(UserCreationForm):
@@ -19,9 +21,28 @@ class RegistrationForm(UserCreationForm):
             "first_name",
             "last_name",
         ]
-        widgets = {
-            "password": forms.PasswordInput(),
-        }
+
+    def save(self, commit=True) -> None | CustomUser:
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+
+        try:
+            join_room = Room.objects.get(join_code=self.cleaned_data["join_code"])
+        except Room.DoesNotExist:
+            return None
+        else:
+            if not commit:
+                return user
+
+            user.save()
+
+            Student.objects.create(
+                user=user,
+                flex_room=join_room,
+                active_room=join_room,
+            )
+
+        return user
 
 
 class AuthenticationForm(forms.Form):

@@ -8,21 +8,21 @@ def send_request(
     reason: str,
     round_trip: bool,
 ) -> str:
-    if len(destination.current_students) >= destination.max_students:
+    if destination.current_students.count() >= destination.max_students:
         return "failed"
 
-    if student.id in destination.current_students:
+    if destination.current_students.filter(id=student.id).exists():
         return "failed"
 
     request = Request.objects.create(
-        requesting_student=student.id,
+        requesting_student=student,
         destination=destination,
         reason=reason,
         round_trip=round_trip,
     )
 
     current_room.active_requests.add(request)
-    destination.current_students.append(student.id)
+    destination.current_students.add(student)
     destination.save()
     student.active_request = request
     student.save()

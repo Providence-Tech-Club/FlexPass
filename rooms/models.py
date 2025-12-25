@@ -48,7 +48,7 @@ class Room(models.Model):
         max_length=6,
         unique=True,
         default=generate_unique_join_code,
-        editable=False,
+        # editable=False,
     )
 
     # Defined by Moderator
@@ -59,8 +59,7 @@ class Room(models.Model):
         related_name="room_moderator",
     )
     name = models.CharField(max_length=100)
-    isFlexOne = models.BooleanField(
-        help_text="Is this a flex room during flex 1.")
+    isFlexOne = models.BooleanField(help_text="Is this a flex room during flex 1.")
     description = models.CharField(
         max_length=200, help_text="Description of room for flex time.", blank=True
     )
@@ -80,8 +79,6 @@ class Room(models.Model):
         return f"{self.name}"
 
     def save(self, *args, **kwargs):
-        if (
-            not self.pk and not self.join_code
-        ):  # Only generate on first save if not already set
+        if not self.pk and not self.join_code:
             self.join_code = generate_unique_join_code()
         super().save(*args, **kwargs)

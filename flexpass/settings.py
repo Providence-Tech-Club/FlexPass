@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from sys import platform
 
@@ -27,6 +28,21 @@ SECRET_KEY = "django-insecure-&u9tjk_^n-m)+7h5nm(==yasun)*)@cqn48o70lhlp!cs!5c15
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "*"]
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}
 
 
 # Application definition
@@ -145,6 +161,7 @@ LOGIN_REDIRECT_URL = "/"
 
 # Tailwind
 TAILWIND_APP_NAME = "theme"
+
 if DEBUG:
     # Add django_browser_reload only in DEBUG mode
     INSTALLED_APPS += ["django_browser_reload"]
@@ -153,5 +170,6 @@ if DEBUG:
     MIDDLEWARE += [
         "django_browser_reload.middleware.BrowserReloadMiddleware",
     ]
+
 if platform == "win32":
     NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"

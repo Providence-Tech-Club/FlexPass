@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+import logging
 
 from .forms import RequestForm
 from .models import Room
@@ -31,14 +32,16 @@ def request(request):
             reason = form.get_reason()
             round_trip = form.clean()["round_trip"]
 
-            current_room = request.user.student.current_location
+            # logging.warning(request.user.student_user)
+            current_room = request.user.student_user.current_location
+
             print(current_room)
             # return
 
             # current_room = Room.objects.get(pk=current_room_id)
 
             status = send_request(
-                request.user.student, current_room, destination, reason, round_trip
+                request.user.student_user, current_room, destination, reason, round_trip
             )
 
             # print(current_room)
