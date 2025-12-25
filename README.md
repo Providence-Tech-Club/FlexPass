@@ -1,5 +1,7 @@
 # Project: PCHS FlexPass App
 
+A system for managing students during flex times, and coordinating hall passes for students.
+
 <!--toc:start-->
 - [Project: PCHS FlexPass App](#project-pchs-flexpass-app)
   - [Setup Project](#setup-project)
@@ -11,8 +13,6 @@
     - [Run the database](#run-the-database)
     - [Run the website](#run-the-website)
 <!--toc:end-->
-
-A system for managing students during flex times, and coordinating hall passes for students.
 
 ## Setup Project
 
