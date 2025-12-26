@@ -20,6 +20,8 @@ A system for managing students during flex times, and coordinating hall passes f
 - User
   - [ ] Email Registration
   - [ ] Account Page
+    - [x] User Info
+    - [ ] Password Reset
 - Moderator
   - [ ] Registration Page
   - [ ] Requests Page

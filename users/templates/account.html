@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+
+<div class="grid mt-4">
+  <!-- <h1>User Account</h1> -->
+  <div class="card bg-base-300 w-96 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-gold">Account Info</h2>
+      <br>
+
+      <strong>Email</strong>
+      <p>{{ user.email }}</p>
+      <br>
+
+      <strong>First Name</strong>
+      <p>{{ user.first_name }}</p>
+      <br>
+
+      <strong>Last Name</strong>
+      <p>{{ user.last_name }}</p>
+      <br>
+
+      <strong>Password</strong>
+      <button class="btn btn-outline btn-error">Reset Password</button>
+      <br>
+
+    </div>
+  </div>
+
+  {% if user.is_moderator %}
+  <div class="card bg-base-300 w-96 shadow-sm mt-4">
+    <div class="card-body">
+      <h2 class="card-title text-gold">Moderator Info</h2>
+      <br>
+
+      <strong>Flex Rooms</strong>
+
+      {% for room in user.moderator_user.moderated_rooms.all %}
+      <p>{{ room.name }}</p>
+      <br>
+      {% endfor %}
+    </div>
+  </div>
+  {% else %}
+  <div class="card bg-base-300 w-96 shadow-sm mt-4">
+    <div class="card-body">
+      <h2 class="card-title text-gold">Student Info</h2>
+      <br>
+
+      <strong>Flex Room</strong>
+      <p>{{ user.student_user.flex_room.name }}</p>
+      <br>
+
+      <strong>Flex Time</strong>
+      {% if user.student_user.flex_room.isFlexOne %}
+      <p>Flex 1</p>
+      {% else %}
+      <p> Flex 2</p>
+      {% endif %}
+
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

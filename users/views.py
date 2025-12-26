@@ -34,3 +34,7 @@ def email_login(request):
         form = AuthenticationForm(request)
 
     return render(request, "login.html", {"form": form})
+
+
+def account(request):
+    return render(request, "account.html")
