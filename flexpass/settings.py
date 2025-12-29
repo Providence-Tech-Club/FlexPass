@@ -59,8 +59,8 @@ INSTALLED_APPS = [
     # Users
     "home.apps.HomeConfig",
     "users",
-    "students",
     "moderators",
+    "students",
     "rooms",
     # Addons
     # "push_notifications",
