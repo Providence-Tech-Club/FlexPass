@@ -20,18 +20,23 @@ A system for managing students during flex times, and coordinating hall passes f
 - User
   - [ ] Email Registration
   - [ ] Account Page
+    - [x] User Info
+    - [ ] Password Reset
 - Moderator
   - [ ] Registration Page
   - [ ] Requests Page
     - [ ] Approve/Deny Request
   - [ ] Room Page
   - [ ] Student Lookup
+    - [ ] Student Map
 - Student
   - [x] Registration Page
   - [ ] Room List Page
     - [ ] Favorite Rooms
     - [ ] Filter & Sort Rooms
   - [ ] Request Status
+- Navigation
+  - [ ] Student/Moderator View
 
 ## Setup Project
 
