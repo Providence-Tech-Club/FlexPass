@@ -10,6 +10,13 @@
   */
 @source "../../../**/*.{html,py,js}";
 
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: true;
+  --color-primary: #00653b;
+  --color-secondary: #FDB824;
+}
+
 
 @theme {
   --color-darkgreen: #00653b;

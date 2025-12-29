@@ -35,8 +35,9 @@ A system for managing students during flex times, and coordinating hall passes f
     - [ ] Favorite Rooms
     - [ ] Filter & Sort Rooms
   - [ ] Request Status
+    - [ ] Request History
 - Navigation
-  - [ ] Student/Moderator View
+  - [x] Student/Moderator View
 
 ## Setup Project
 
