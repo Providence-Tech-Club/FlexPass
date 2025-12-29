@@ -2,15 +2,15 @@
 @import "tailwindcss";
 
 @theme {
-    --font-roboto: "Roboto", sans-serif;
-    --color-primary: var(--color-green-600);
-    --color-secondary: var(--color-amber-400);
+  --font-roboto: "Roboto", sans-serif;
+  /* --color-primary: var(--color-green-600); */
+  /* --color-secondary: var(--color-amber-400); */
 }
 
-.bg-darkgreen {
-    background: #00653b;
-}
+/* .bg-darkgreen { */
+/*   background: #00653b; */
+/* } */
 
 body {
-    font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }

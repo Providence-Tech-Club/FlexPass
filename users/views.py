@@ -1,11 +1,15 @@
-from .forms import AuthenticationForm, RegistrationForm
-from django.contrib.auth import login
-from django.shortcuts import redirect, render
 import logging
+
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_not_required
+from django.shortcuts import redirect, render
+
+from .forms import AuthenticationForm, RegistrationForm
 
 logger = logging.getLogger(__name__)
 
 
+@login_not_required
 def register(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
@@ -23,6 +27,7 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
+@login_not_required
 def email_login(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -34,6 +39,12 @@ def email_login(request):
         form = AuthenticationForm(request)
 
     return render(request, "login.html", {"form": form})
+
+
+def logout_view(request):
+    logout(request)
+
+    return redirect("/")
 
 
 def account(request):
