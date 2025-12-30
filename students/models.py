@@ -37,3 +37,10 @@ class Student(models.Model):
 
     def __str__(self):
         return f"{self.user.last_name}, {self.user.first_name}"
+
+    def set_room(self, room) -> None:
+        if self.current_location:
+            self.current_location.current_students.remove(self)
+
+        self.current_location = room
+        room.current_students.add(self)

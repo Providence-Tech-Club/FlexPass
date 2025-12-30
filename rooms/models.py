@@ -1,9 +1,8 @@
 import random
 import string
 
-# from django.contrib.auth import get_user_model
-# from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from moderators.models import Moderator
 
 
 def generate_unique_join_code():
@@ -82,3 +81,10 @@ class Room(models.Model):
         if not self.pk and not self.join_code:
             self.join_code = generate_unique_join_code()
         super().save(*args, **kwargs)
+
+    def set_moderator(self, moderator: Moderator) -> None:
+        if self.moderator:
+            self.moderator.moderated_rooms.remove(self)
+
+        self.moderator = moderator
+        moderator.moderated_rooms.add(self)
