@@ -59,14 +59,14 @@
             {% if user.student_user.active_request.destination == room %}
                 <strong class="text-sm text-center align-middle">Pending Request</strong>
                 <button class="btn btn-primary" disabled>Request</button>
-            {% elif user.student_user.id in room.current_students %}
+            {% elif user.student_user in room.current_students.all %}
                 <strong class="text-sm text-center self-center">Current Room</strong>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif user.student_user.active_request %}
-                <div></div>
+                <div>already active_request</div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif students >= room.max_students %}
-                <div></div>
+                <div>full</div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif room.open_room == True %}
                 <div></div>
@@ -75,7 +75,7 @@
                 <strong class="text-sm text-center self-center">You have special access to this room</strong>
                 <button class="btn btn-primary" type="submit">Request</button>
             {% else %}
-                <div></div>
+                <div>Closed</div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% endif %}
             </div>

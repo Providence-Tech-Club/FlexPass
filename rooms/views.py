@@ -7,6 +7,8 @@ from django.shortcuts import redirect, render
 from .forms import RequestForm
 from .models import Room, Request
 
+import logging
+
 
 def index(request):
     return HttpResponse("Welcome to the classroom view.")
@@ -32,6 +34,10 @@ def request(request):
             flex_request = Request.send(
                 request.user.student_user, destination, reason, round_trip
             )
+
+            logging.warn("sigh")
+            logging.warn(flex_request)
+            logging.warn(request.user.student_user.active_request)
 
             encoded_params = urlencode(
                 {"status": "success" if flex_request else "failed"}

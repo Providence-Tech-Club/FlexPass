@@ -6,8 +6,9 @@ class RequestForm(forms.Form):
         (True, "Yes"),
         (False, "No"),
     ]
-    round_trip = forms.BooleanField(
-        widget=forms.RadioSelect(choices=YES_NO),
+    round_trip = forms.ChoiceField(
+        choices=YES_NO,
+        widget=forms.RadioSelect,
         required=True,
         label="Will you return to your Flex Room?",
     )
