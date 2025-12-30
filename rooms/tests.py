@@ -3,7 +3,7 @@ from users.models import CustomUser
 from moderators.models import Moderator
 from students.models import Student
 from rooms.models import Room, Request
-from rooms.utils import send_request, approve_request, deny_request
+# from rooms.utils import send_request, approve_request, deny_request
 
 
 class RoomTestCase(TestCase):
@@ -49,16 +49,13 @@ class RoomTestCase(TestCase):
     def test_send_request(self):
         """Request is sent successfully"""
 
-        status = send_request(
+        request = Request.send(
             student=self.testStudent1,
             destination=self.testRoom2,
             reason="Tech Club",
             round_trip=False,
         )
 
-        request = self.testStudent1.active_request
-
-        self.assertTrue(status)
         self.assertIsNotNone(request)
         self.assertEqual(request.requesting_student, self.testStudent1)
         self.assertEqual(request.destination, self.testRoom2)
@@ -68,14 +65,14 @@ class RoomTestCase(TestCase):
     def test_approve_request(self):
         """Request is approved"""
 
-        status = send_request(
+        request = Request.send(
             student=self.testStudent1,
             destination=self.testRoom2,
             reason="Tech Club",
             round_trip=False,
         )
 
-        approve_request(self.testStudent1.active_request)
+        request.approve()
 
         self.assertEqual(self.testStudent1.current_location, self.testRoom2)
         self.assertIsNotNone(
@@ -88,14 +85,14 @@ class RoomTestCase(TestCase):
     def test_deny_request(self):
         """Request is Denyed"""
 
-        status = send_request(
+        request = Request.send(
             student=self.testStudent1,
             destination=self.testRoom2,
             reason="Tech Club",
             round_trip=False,
         )
 
-        deny_request(self.testStudent1.active_request)
+        request.deny()
 
         self.assertEqual(self.testStudent1.current_location, self.testRoom1)
         self.assertIsNotNone(

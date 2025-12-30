@@ -1,13 +1,11 @@
 from urllib.parse import urlencode
 
-# from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import RequestForm
-from .models import Room
-from .utils import send_request
+from .models import Room, Request
 
 
 def index(request):
@@ -31,11 +29,13 @@ def request(request):
 
             current_room = request.user.student_user.current_location
 
-            success = send_request(
+            flex_request = Request.send(
                 request.user.student_user, current_room, destination, reason, round_trip
             )
 
-            encoded_params = urlencode({"status": "success" if success else "failed"})
+            encoded_params = urlencode(
+                {"status": "success" if flex_request else "failed"}
+            )
             return redirect(f"/rooms?{encoded_params}")
     else:
         form = RequestForm()

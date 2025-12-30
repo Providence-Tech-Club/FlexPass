@@ -1,8 +1,11 @@
 import random
 import string
+from typing import Optional
 
 from django.db import models
 from moderators.models import Moderator
+
+from students.models import Student
 
 
 def generate_unique_join_code():
@@ -39,6 +42,43 @@ class Request(models.Model):
 
     def __str__(self):
         return f"{str(self.time_of_request)} - {self.reason}"
+
+    def send(
+        student: Student,
+        destination: "Room",
+        reason: str,
+        round_trip: bool,
+    ) -> Optional["Request"]:
+        """Checks if a request can be sent, then creates a request"""
+        if destination.current_students.count() >= destination.max_students:
+            return
+
+        if destination.current_students.filter(id=student.id).exists():
+            return
+
+        current_room = student.current_location
+
+        request = Request.objects.create(
+            requesting_student=student,
+            destination=destination,
+            reason=reason,
+            round_trip=round_trip,
+        )
+
+        current_room.active_requests.add(request)
+        student.active_request = request
+
+        return request
+
+    def approve(self) -> None:
+        self.approved = True
+        self.requesting_student.active_request = None
+        self.destination.active_requests.remove(self)
+        self.requesting_student.set_room(self.destination)
+
+    def deny(self) -> None:
+        self.requesting_student.active_request = None
+        self.destination.active_requests.remove(self)
 
 
 class Room(models.Model):
