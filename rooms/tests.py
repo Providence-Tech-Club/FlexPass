@@ -3,7 +3,6 @@ from users.models import CustomUser
 from moderators.models import Moderator
 from students.models import Student
 from rooms.models import Room, Request
-# from rooms.utils import send_request, approve_request, deny_request
 
 
 class RoomTestCase(TestCase):
