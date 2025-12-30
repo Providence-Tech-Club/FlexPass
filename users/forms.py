@@ -39,7 +39,7 @@ class RegistrationForm(UserCreationForm):
             Student.objects.create(
                 user=user,
                 flex_room=join_room,
-                active_room=join_room,
+                current_location=join_room,
             )
 
         return user

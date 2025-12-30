@@ -57,16 +57,16 @@
             <div class="card-actions justify-end my-2 grid grid-cols-2">
             <input type="hidden" name="room_id" value="{{ room.id }}">
             {% if user.student_user.active_request.destination == room %}
-                <strong class="text-sm text-center align-middle">Pending Request</strong>
+                <strong class="text-sm text-center self-center">Pending Request</strong>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif user.student_user in room.current_students.all %}
                 <strong class="text-sm text-center self-center">Current Room</strong>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif user.student_user.active_request %}
-                <div>already active_request</div>
+                <div></div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif students >= room.max_students %}
-                <div>full</div>
+                <div></div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% elif room.open_room == True %}
                 <div></div>
@@ -75,7 +75,7 @@
                 <strong class="text-sm text-center self-center">You have special access to this room</strong>
                 <button class="btn btn-primary" type="submit">Request</button>
             {% else %}
-                <div>Closed</div>
+                <div></div>
                 <button class="btn btn-primary" disabled>Request</button>
             {% endif %}
             </div>

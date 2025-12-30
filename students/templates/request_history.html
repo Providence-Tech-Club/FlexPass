@@ -3,30 +3,66 @@
 {% block title %}Request Log{% endblock %}
 
 {% block content %}
-<div class="grid mt-4">
+<div class="grid w-7/8 md:w-2/3 xl:w-1/2">
 
   {% if user.student_user.active_request %}
   {% with request=user.student_user.active_request %}
-  <ul class="list bg-base-300 rounded-box shadow-md">
-
-    <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">Active Request</li>
-
-    <li class="list-row">
-      <!-- <div><img class="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" /></div> -->
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
-        class="self-center bi bi-envelope" viewBox="0 0 16 16">
-        <path
-          d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
-      </svg>
-      <div>
-        <div>{{ request.destination }}</div>
-        <div class="text-xs uppercase font-semibold opacity-60">{{ request.reason }}</div>
-      </div>
+  <ul class="list bg-base-300 rounded-box shadow-md mt-4">
+    <li class="p-4 pb-2 text-lg tracking-wide flex">
+      <h2 class="text-center self-center">Active Request</h2>
     </li>
+    <div class="divider m-0"></div>
 
-
+    <li class="list-row w-full">
+      <div class="flex gap-x-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+          class="self-center bi bi-envelope" viewBox="0 0 16 16">
+          <path
+            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+        </svg>
+        <div>
+          <div>{{ request.destination }}</div>
+          <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
+        </div>
+      </div>
+      <div class="badge badge-soft badge-warning self-center justify-self-end">Pending</div>
+    </li>
   </ul>
   {% endwith %}
   {% endif %}
+  <ul class="list bg-base-300 rounded-box shadow-md mt-4">
+    <li class="p-4 pb-2 text-lg tracking-wide grid grid-cols-2">
+      <h2 class="text-center self-center justify-self-start">Request History</h2>
+      <div class="self-center justify-self-end badge badge-soft badge-primary">{{ user.student_user.event_log.all|length }}</div>
+    </li>
+    <div class="divider m-0"></div>
+
+    {% for request in user.student_user.event_log.all %}
+    <li class="list-row w-full">
+      <div class="flex gap-x-3">
+        {% if request.approved %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="self-center bi bi-envelope-check" viewBox="0 0 16 16">
+            <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-1.993-1.679a.5.5 0 0 0-.686.172l-1.17 1.95-.547-.547a.5.5 0 0 0-.708.708l.774.773a.75.75 0 0 0 1.174-.144l1.335-2.226a.5.5 0 0 0-.172-.686"/>
+          </svg>
+        {% else %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="self-center bi bi-envelope-x" viewBox="0 0 16 16">
+            <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z"/>
+            <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-4.854-1.354a.5.5 0 0 0 0 .708l.647.646-.647.646a.5.5 0 0 0 .708.708l.646-.647.646.647a.5.5 0 0 0 .708-.708l-.647-.646.647-.646a.5.5 0 0 0-.708-.708l-.646.647-.646-.647a.5.5 0 0 0-.708 0"/>
+          </svg>
+        {% endif%}
+        <div>
+          <div>{{ request.destination }}</div>
+          <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
+        </div>
+      </div>
+      {% if request.approved %}
+      <div class="badge badge-soft badge-success self-center justify-self-end">Approved</div>
+      {% else %}
+      <div class="badge badge-soft badge-error self-center justify-self-end">Denyed</div>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock %}

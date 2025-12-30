@@ -70,17 +70,22 @@ class Request(models.Model):
 
         current_room.active_requests.add(request)
         student.active_request = request
+        student.save()
 
         return request
 
     def approve(self) -> None:
         self.approved = True
+        self.save()
         self.requesting_student.active_request = None
+        self.requesting_student.save()
         self.destination.active_requests.remove(self)
         self.requesting_student.set_room(self.destination)
+        self.requesting_student.event_log.add(self)
 
     def deny(self) -> None:
         self.requesting_student.active_request = None
+        self.requesting_student.save()
         self.destination.active_requests.remove(self)
 
 
