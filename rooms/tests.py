@@ -55,6 +55,8 @@ class RoomTestCase(TestCase):
             round_trip=False,
         )
 
+        self.assertEqual(self.testStudent1.active_request, request)
+
         self.assertIsNotNone(request)
         self.assertEqual(request.requesting_student, self.testStudent1)
         self.assertEqual(request.destination, self.testRoom2)

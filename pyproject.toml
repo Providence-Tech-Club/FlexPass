@@ -9,6 +9,7 @@ dependencies = [
     "django>=5.2.7",
     "django-push-notifications[apns-async,fcm,wp]>=3.3.0",
     "django-tailwind[cookiecutter,honcho,reload]>=4.3.1",
+    "django-widget-tweaks>=1.5.0",
     "faker>=38.2.0",
     "ics>=0.7.2",
     "psycopg[binary]>=3.2.11",

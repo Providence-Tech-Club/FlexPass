@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     "rooms",
     # Addons
     # "push_notifications",
+    # "widget_tweaks",
 ]
 
 # # Import the firebase service

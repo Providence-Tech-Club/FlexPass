@@ -50,7 +50,10 @@ class Request(models.Model):
         round_trip: bool,
     ) -> Optional["Request"]:
         """Checks if a request can be sent, then creates a request"""
-        if destination.current_students.count() >= destination.max_students:
+        if (
+            destination.current_students.count() - destination.active_requests.count()
+            >= destination.max_students
+        ):
             return
 
         if destination.current_students.filter(id=student.id).exists():

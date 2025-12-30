@@ -27,10 +27,10 @@ def request(request):
             reason = form.get_reason()
             round_trip = form.clean()["round_trip"]
 
-            current_room = request.user.student_user.current_location
+            # current_room = request.user.student_user.current_location
 
             flex_request = Request.send(
-                request.user.student_user, current_room, destination, reason, round_trip
+                request.user.student_user, destination, reason, round_trip
             )
 
             encoded_params = urlencode(
