@@ -116,7 +116,7 @@
             </li>
             <li class="list-row">
               <div>
-                <div>Approved on</div>
+                <div>Updated on</div>
                 <div class="text-xs uppercase font-semibold opacity-60">{{ request.updated_at|localtime }}</div>
               </div>
             </li>
@@ -140,17 +140,13 @@
   </ul>
 </div>
 <script>
-const socket = new WebSocket('ws://' + window.location.host + '/ws/requests/');
+const socket = new WebSocket('ws://' + window.location.host + '/ws/request-update/');
 
 socket.onmessage = function(e) {
-    console.log("message received")
     const data = JSON.parse(e.data);
     console.log("Status changed:", data.status);
     
-    // Simple approach: Refresh the whole page
     window.location.reload();
-    
-    // Advanced approach: Use HTMX or JS to update just the table row
 };
 </script>
 {% endblock %}

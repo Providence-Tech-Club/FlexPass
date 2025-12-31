@@ -5,11 +5,11 @@ services:
     container_name: postgresql-db
     restart: always
     ports:
-      - "5432:5432" # Default PostgreSQL port
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: postgresql
     volumes:
-      - postgresql_db_data:/var/lib/postgresql/data # Docker managed volume
+      - postgresql_db_data:/var/lib/postgresql/data
   # Redis Database
   redis:
     image: redis:8.4-alpine

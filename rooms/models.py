@@ -90,10 +90,9 @@ class Request(models.Model):
 
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            f"user_updates_{self.requesting_student.user.id}",
+            f"request_update_{self.requesting_student.user.id}",
             {
                 "type": "status_update",
-                "message": "Your request has been updated!",
                 "status": "approved",
             },
         )
@@ -104,6 +103,15 @@ class Request(models.Model):
         self.destination.active_requests.remove(self)
 
         self.requesting_student.save()
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"request_update_{self.requesting_student.user.id}",
+            {
+                "type": "status_update",
+                "status": "denied",
+            },
+        )
 
 
 class Room(models.Model):
