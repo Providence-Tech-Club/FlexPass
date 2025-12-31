@@ -84,7 +84,7 @@ class RoomTestCase(TestCase):
         )
 
     def test_deny_request(self):
-        """Request is Denyed"""
+        """Request is Denied"""
 
         request = Request.send(
             student=self.testStudent1,

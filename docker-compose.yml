@@ -1,7 +1,7 @@
 services:
-# PostgreSQL database
+  # PostgreSQL database
   postgresql_db:
-    image: postgres:17.6-trixie
+    image: postgres:17.7-alpine
     container_name: postgresql-db
     restart: always
     ports:
@@ -10,7 +10,16 @@ services:
       POSTGRES_PASSWORD: postgresql
     volumes:
       - postgresql_db_data:/var/lib/postgresql/data # Docker managed volume
-
+  # Redis Database
+  redis:
+    image: redis:8.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
   postgresql_db_data:
+  redis_data:
+    driver: local

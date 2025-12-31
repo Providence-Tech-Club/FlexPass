@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "arrow>=1.4.0",
+    "channels-redis>=4.3.0",
+    "channels[daphne]>=4.3.2",
     "django>=5.2.7",
     "django-push-notifications[apns-async,fcm,wp]>=3.3.0",
     "django-tailwind[cookiecutter,honcho,reload]>=4.3.1",
@@ -13,4 +15,5 @@ dependencies = [
     "faker>=38.2.0",
     "ics>=0.7.2",
     "psycopg[binary]>=3.2.11",
+    "types-channels>=4.3.0.20250822",
 ]

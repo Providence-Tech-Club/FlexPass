@@ -1,10 +1,13 @@
+import logging
 import random
 import string
 from typing import Optional
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.db import models
-from moderators.models import Moderator
 
+from moderators.models import Moderator
 from students.models import Student
 
 
@@ -20,7 +23,8 @@ def generate_unique_join_code():
 
 class Request(models.Model):
     # Defined by Program
-    time_of_request = models.TimeField(auto_now=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     requesting_student = models.ForeignKey(
         "students.Student", default=None, null=True, on_delete=models.SET_NULL
     )
@@ -41,7 +45,7 @@ class Request(models.Model):
     )
 
     def __str__(self):
-        return f"{str(self.time_of_request)} - {self.reason}"
+        return f"{str(self.updated_at)} - {self.reason}"
 
     def send(
         student: Student,
@@ -76,17 +80,32 @@ class Request(models.Model):
 
     def approve(self) -> None:
         self.approved = True
-        self.save()
         self.requesting_student.active_request = None
-        self.requesting_student.save()
         self.destination.active_requests.remove(self)
         self.requesting_student.set_room(self.destination)
         self.requesting_student.event_log.add(self)
 
+        self.save()
+        self.requesting_student.save()
+
+        logging.warn("approve")
+        logging.warn(self.requesting_student.user.id)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"user_updates_{self.requesting_student.user.id}",
+            {
+                "type": "status_update",
+                "message": "Your request has been updated!",
+                "status": "approved",
+            },
+        )
+
     def deny(self) -> None:
         self.requesting_student.active_request = None
-        self.requesting_student.save()
+        self.requesting_student.event_log.add(self)
         self.destination.active_requests.remove(self)
+
+        self.requesting_student.save()
 
 
 class Room(models.Model):
