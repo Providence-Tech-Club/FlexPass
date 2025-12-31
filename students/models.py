@@ -30,10 +30,12 @@ class Student(models.Model):
         on_delete=models.SET_NULL,
         related_name="student_flex",
     )
-    flex_active = models.BooleanField(default=False)
+
     event_log = models.ManyToManyField(
         "rooms.Request", blank=True, related_name="student_log"
     )
+
+    is_archived = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.user.last_name}, {self.user.first_name}"
@@ -44,3 +46,5 @@ class Student(models.Model):
 
         self.current_location = room
         room.current_students.add(self)
+
+        self.save()

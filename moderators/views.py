@@ -17,15 +17,25 @@ def room_management(request):
 
 @moderator_required
 def pending_requests(request):
+    if request.method == "POST":
+        request_id = request.POST.get("request_id")
+        action = request.POST.get("action")
+
+        pending_request = Request.objects.get(pk=request_id)
+        if action == "approve":
+            pending_request.approve(request.user.moderator_user)
+        else:
+            pending_request.deny(request.user.moderator_user)
+
     total_requests = Request.objects.none()
 
     for room in request.user.moderator_user.moderated_rooms.all():
         total_requests |= room.active_requests.all()
 
     sorted_requests = total_requests.order_by("-created_at")
-    reviewed_requests = request.user.moderator_user.reviewed_requests.order_by(
-        "-updated_at"
-    )
+    reviewed_requests = Request.objects.filter(
+        reviewed_by=request.user.moderator_user
+    ).order_by("-updated_at")
     context = {
         "pending_requests": sorted_requests,
         "reviewed_requests": reviewed_requests,

@@ -4,7 +4,7 @@
 {% block title %}Request Log{% endblock %}
 
 {% block content %}
-<div class="grid w-7/8 md:w-2/3 xl:w-1/2">
+<div class="grid w-7/8 sm:w-140">
 
   {% if user.student_user.active_request %}
   {% with request=user.student_user.active_request %}
@@ -39,6 +39,12 @@
           <h3 class="text-lg">Request to <strong class="text-gold">{{ request.destination }}</strong></h3>
 
           <ul class="list">
+            <li class="list-row">
+              <div>
+                <div>From room</div>
+                <div class="text-xs font-semibold opacity-60">{{ request.origin }}</div>
+              </div>
+            </li>
             <li class="list-row">
               <div>
                 <div>Requested on</div>
@@ -116,6 +122,12 @@
           <ul class="list">
             <li class="list-row">
               <div>
+                <div>From room</div>
+                <div class="text-xs font-semibold opacity-60">{{ request.origin }}</div>
+              </div>
+            </li>
+            <li class="list-row">
+              <div>
                 <div>Requested on</div>
                 <div class="text-xs uppercase font-semibold opacity-60">{{ request.created_at|localtime }}</div>
               </div>
@@ -138,6 +150,22 @@
                 <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
               </div>
             </li>
+            <li class="list-row">
+              <div>
+                <div>Reviewed by</div>
+                <div class="text-xs font-semibold opacity-60">{{ request.reviewed_by }}</div>
+              </div>
+            </li>
+            <li class="list-row">
+              <div>
+                <div>Status</div>
+                {% if request.approved %}
+                <div class="badge badge-soft badge-success">Approved</div>
+                {% else %}
+                <div class="badge badge-soft badge-error">Denied</div>
+                {% endif %}
+              </div>
+            </li>
           </ul>
 
           <div class="modal-action">
@@ -152,7 +180,7 @@
   </ul>
 </div>
 <script>
-const socket = new WebSocket('ws://' + window.location.host + '/ws/request-update/');
+const socket = new WebSocket('ws://' + window.location.host + '/ws/request/');
 
 socket.onmessage = function(e) {
     const data = JSON.parse(e.data);
