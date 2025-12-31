@@ -86,7 +86,11 @@ class Request(models.Model):
 
         # Send update to moderator
         channel_layer = get_channel_layer()
-        group_name = f"request_{destination.moderator.user.id}"
+        group_name = f"request_{current_room.moderator.user.id}"
+        logging.warn(group_name)
+        logging.warn(current_room)
+        logging.warn(current_room.moderator)
+        logging.warn(current_room.moderator.user)
         async_to_sync(channel_layer.group_send)(
             group_name,
             {
@@ -100,14 +104,14 @@ class Request(models.Model):
     def approve(self, moderator: Moderator) -> None:
         self.approved = True
         self.reviewed_by = moderator
+        self.save()
 
         self.requesting_student.active_request = None
-        self.destination.active_requests.remove(self)
+        self.requesting_student.save()
+
         self.requesting_student.set_room(self.destination)
         self.requesting_student.event_log.add(self)
-
-        self.save()
-        self.requesting_student.save()
+        self.origin.active_requests.remove(self)
 
         # Send update to student
         channel_layer = get_channel_layer()
@@ -189,4 +193,6 @@ class Room(models.Model):
             self.moderator.moderated_rooms.remove(self)
 
         self.moderator = moderator
+        self.save()
+
         moderator.moderated_rooms.add(self)

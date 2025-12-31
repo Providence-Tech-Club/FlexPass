@@ -1,4 +1,5 @@
 import json
+import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
@@ -6,6 +7,7 @@ class RequestConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user_id = self.scope["user"].id
         self.group_name = f"request_{self.user_id}"
+        logging.warn(f"group name = {self.group_name}")
 
         await self.channel_layer.group_add(self.group_name, self.channel_name)
         await self.accept()
