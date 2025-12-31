@@ -88,8 +88,6 @@ class Request(models.Model):
         self.save()
         self.requesting_student.save()
 
-        logging.warn("approve")
-        logging.warn(self.requesting_student.user.id)
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             f"user_updates_{self.requesting_student.user.id}",
