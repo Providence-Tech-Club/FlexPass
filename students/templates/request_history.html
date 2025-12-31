@@ -47,6 +47,12 @@
             </li>
             <li class="list-row">
               <div>
+                <div>Round Trip</div>
+                <div class="text-xs uppercase font-semibold opacity-60">{{ request.round_trip }}</div>
+              </div>
+            </li>
+            <li class="list-row">
+              <div>
                 <div>Reason</div>
                 <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
               </div>
@@ -118,6 +124,12 @@
               <div>
                 <div>Updated on</div>
                 <div class="text-xs uppercase font-semibold opacity-60">{{ request.updated_at|localtime }}</div>
+              </div>
+            </li>
+            <li class="list-row">
+              <div>
+                <div>Round Trip</div>
+                <div class="text-xs uppercase font-semibold opacity-60">{{ request.round_trip }}</div>
               </div>
             </li>
             <li class="list-row">

@@ -21,10 +21,15 @@ A system for managing students during flex times, and coordinating hall passes f
   - [ ] Room List Page
     - [ ] Favorite Rooms
     - [ ] Filter & Sort Rooms
-  - [ ] Request Status
-    - [ ] Request History
+  - [x] Request Status
+    - [x] Request History
 - Navigation
   - [x] Student/Moderator View
+- Database
+  - [ ] Request
+    - [ ] "From" Room
+  - [ ] Moderator
+    - [ ] Reviewed Requests
 
 ## Documentation
 

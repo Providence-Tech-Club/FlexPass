@@ -73,8 +73,18 @@ class Request(models.Model):
         )
 
         current_room.active_requests.add(request)
+        logging.warn(current_room.active_requests.all())
         student.active_request = request
         student.save()
+
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"request_new_{student.user.id}",
+            {
+                "type": "status_update",
+                "status": "new",
+            },
+        )
 
         return request
 

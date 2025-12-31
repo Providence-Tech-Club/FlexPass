@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from users.utils import moderator_required
 
+from rooms.models import Request
+import logging
+
 
 @moderator_required
 def moderator_menu(request):
@@ -14,7 +17,20 @@ def room_management(request):
 
 @moderator_required
 def pending_requests(request):
-    return render(request, "pending_requests.html")
+    total_requests = Request.objects.none()
+
+    for room in request.user.moderator_user.moderated_rooms.all():
+        total_requests |= room.active_requests.all()
+
+    sorted_requests = total_requests.order_by("-created_at")
+    reviewed_requests = request.user.moderator_user.reviewed_requests.order_by(
+        "-updated_at"
+    )
+    context = {
+        "pending_requests": sorted_requests,
+        "reviewed_requests": reviewed_requests,
+    }
+    return render(request, "pending_requests.html", context)
 
 
 @moderator_required
