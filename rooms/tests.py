@@ -55,6 +55,8 @@ class RoomTestCase(TestCase):
             round_trip=False,
         )
 
+        self.assertEqual(self.testStudent1.active_request, request)
+
         self.assertIsNotNone(request)
         self.assertEqual(request.requesting_student, self.testStudent1)
         self.assertEqual(request.destination, self.testRoom2)
@@ -82,7 +84,7 @@ class RoomTestCase(TestCase):
         )
 
     def test_deny_request(self):
-        """Request is Denyed"""
+        """Request is Denied"""
 
         request = Request.send(
             student=self.testStudent1,
@@ -93,6 +95,7 @@ class RoomTestCase(TestCase):
 
         request.deny()
 
+        self.assertIsNone(self.testStudent1.active_request)
         self.assertEqual(self.testStudent1.current_location, self.testRoom1)
         self.assertIsNotNone(
             self.testRoom1.current_students.filter(pk=self.testStudent1.pk)

@@ -48,8 +48,12 @@ LOGGING = {
 # Application definition
 
 INSTALLED_APPS = [
+    # Channels
+    "daphne",
+    # UI
     "tailwind",
     "theme",
+    # Default
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -64,6 +68,7 @@ INSTALLED_APPS = [
     "rooms",
     # Addons
     # "push_notifications",
+    # "widget_tweaks",
 ]
 
 # # Import the firebase service
@@ -113,6 +118,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "flexpass.wsgi.application"
+ASGI_APPLICATION = "flexpass.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 
 # Database

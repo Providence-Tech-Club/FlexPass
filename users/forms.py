@@ -36,11 +36,12 @@ class RegistrationForm(UserCreationForm):
 
             user.save()
 
-            Student.objects.create(
+            student = Student.objects.create(
                 user=user,
                 flex_room=join_room,
-                active_room=join_room,
             )
+
+            student.set_room(join_room)
 
         return user
 

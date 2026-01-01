@@ -11,5 +11,7 @@ class Moderator(models.Model):
         "rooms.Room", blank=True, related_name="moderator_rooms"
     )
 
+    is_archived = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.user.last_name}, {self.user.first_name}"

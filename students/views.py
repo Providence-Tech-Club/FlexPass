@@ -6,4 +6,8 @@ def student_menu(request):
 
 
 def request_history(request):
-    return render(request, "request_history.html")
+    sorted_requests = request.user.student_user.event_log.all().order_by("-updated_at")
+    context = {
+        "request_history": sorted_requests,
+    }
+    return render(request, "request_history.html", context)
