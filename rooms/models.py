@@ -87,15 +87,13 @@ class Request(models.Model):
         # Send update to moderator
         channel_layer = get_channel_layer()
         group_name = f"request_{current_room.moderator.user.id}"
-        logging.warn(group_name)
-        logging.warn(current_room)
-        logging.warn(current_room.moderator)
-        logging.warn(current_room.moderator.user)
         async_to_sync(channel_layer.group_send)(
             group_name,
             {
                 "type": "status_update",
-                "status": "new",
+                "action": "new",
+                "status": "info",
+                "message": "New Request",
             },
         )
 
@@ -119,7 +117,9 @@ class Request(models.Model):
             f"request_{self.requesting_student.user.id}",
             {
                 "type": "status_update",
-                "status": "approved",
+                "action": "update",
+                "status": "success",
+                "message": "Request Approved",
             },
         )
 
@@ -140,7 +140,9 @@ class Request(models.Model):
             f"request_{self.requesting_student.user.id}",
             {
                 "type": "status_update",
-                "status": "denied",
+                "action": "update",
+                "status": "error",
+                "message": "Request Denied",
             },
         )
 

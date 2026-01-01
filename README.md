@@ -9,11 +9,13 @@ A system for managing students during flex times, and coordinating hall passes f
   - [ ] Account Page
     - [x] User Info
     - [ ] Password Reset
+  - [ ] Microsoft Auth
 - Moderator
   - [ ] Registration Page
-  - [ ] Requests Page
-    - [ ] Approve/Deny Request
+  - [x] Requests Page
+    - [x] Approve/Deny Request
   - [ ] Room Page
+    - [ ] Join Code Page
   - [ ] Student Lookup
     - [ ] Student Map
 - Student
@@ -26,10 +28,11 @@ A system for managing students during flex times, and coordinating hall passes f
 - Navigation
   - [x] Student/Moderator View
 - Database
-  - [ ] Request
-    - [ ] "From" Room
-  - [ ] Moderator
-    - [ ] Reviewed Requests
+  - [x] Request
+    - [x] "From" Room
+  - [x] Moderator
+    - [x] Reviewed Requests
+  - [ ] Where to host?
 
 ## Documentation
 

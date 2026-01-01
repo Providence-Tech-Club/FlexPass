@@ -1,8 +1,8 @@
-from django.shortcuts import render
-from users.utils import moderator_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 from rooms.models import Request
-import logging
+from users.utils import moderator_required
 
 
 @moderator_required
@@ -24,8 +24,12 @@ def pending_requests(request):
         pending_request = Request.objects.get(pk=request_id)
         if action == "approve":
             pending_request.approve(request.user.moderator_user)
+            messages.info(request, "Approved Request")
         else:
             pending_request.deny(request.user.moderator_user)
+            messages.info(request, "Denied Request")
+
+        return redirect("pending_requests")
 
     total_requests = Request.objects.none()
 

@@ -38,30 +38,30 @@
         <div class="modal-box">
           <h3 class="text-lg">Request to <strong class="text-gold">{{ request.destination }}</strong></h3>
 
-          <ul class="list">
+          <ul class="list text-right">
             <li class="list-row">
-              <div>
-                <div>From room</div>
-                <div class="text-xs font-semibold opacity-60">{{ request.origin }}</div>
+              <div class="opacity-80">From room</div>
+              <div class="justify-self-end font-semibold">{{ request.origin }}</div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Requested by</div>
+              <div class="justify-self-end font-semibold">{{ request.requesting_student }}</div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Requested on</div>
+              <div class="uppercase justify-self-end font-semibold">{{ request.created_at|localtime }}</div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Round Trip</div>
+              <div class="justify-self-end font-semibold">
+                {% if request.round_trip %} Yes
+                {% else %} No
+                {% endif %}
               </div>
             </li>
             <li class="list-row">
-              <div>
-                <div>Requested on</div>
-                <div class="text-xs uppercase font-semibold opacity-60">{{ request.created_at|localtime }}</div>
-              </div>
-            </li>
-            <li class="list-row">
-              <div>
-                <div>Round Trip</div>
-                <div class="text-xs uppercase font-semibold opacity-60">{{ request.round_trip }}</div>
-              </div>
-            </li>
-            <li class="list-row">
-              <div>
-                <div>Reason</div>
-                <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
-              </div>
+              <div class="opacity-80">Reason</div>
+              <div class="justify-self-end font-semibold">{{ request.reason }}</div>
             </li>
           </ul>
 
@@ -119,52 +119,46 @@
         <div class="modal-box">
           <h3 class="text-lg">Request to <strong class="text-gold">{{ request.destination }}</strong></h3>
 
-          <ul class="list">
+          <ul class="list text-right">
             <li class="list-row">
-              <div>
-                <div>From room</div>
-                <div class="text-xs font-semibold opacity-60">{{ request.origin }}</div>
-              </div>
+              <div class="opacity-80">From room</div>
+              <div class="justify-self-end font-semibold">{{ request.origin }}</div>
             </li>
             <li class="list-row">
-              <div>
-                <div>Requested on</div>
-                <div class="text-xs uppercase font-semibold opacity-60">{{ request.created_at|localtime }}</div>
-              </div>
+              <div class="opacity-80">Requested by</div>
+              <div class="justify-self-end font-semibold">{{ request.requesting_student }}</div>
             </li>
             <li class="list-row">
-              <div>
-                <div>Updated on</div>
-                <div class="text-xs uppercase font-semibold opacity-60">{{ request.updated_at|localtime }}</div>
-              </div>
+              <div class="opacity-80">Requested on</div>
+              <div class="uppercase justify-self-end font-semibold">{{ request.created_at|localtime }}</div>
             </li>
             <li class="list-row">
-              <div>
-                <div>Round Trip</div>
-                <div class="text-xs uppercase font-semibold opacity-60">{{ request.round_trip }}</div>
-              </div>
+              <div class="opacity-80">Updated on</div>
+              <div class="uppercase justify-self-end font-semibold">{{ request.updated_at|localtime }}</div>
             </li>
             <li class="list-row">
-              <div>
-                <div>Reason</div>
-                <div class="text-xs font-semibold opacity-60">{{ request.reason }}</div>
-              </div>
-            </li>
-            <li class="list-row">
-              <div>
-                <div>Reviewed by</div>
-                <div class="text-xs font-semibold opacity-60">{{ request.reviewed_by }}</div>
-              </div>
-            </li>
-            <li class="list-row">
-              <div>
-                <div>Status</div>
-                {% if request.approved %}
-                <div class="badge badge-soft badge-success">Approved</div>
-                {% else %}
-                <div class="badge badge-soft badge-error">Denied</div>
+              <div class="opacity-80">Round Trip</div>
+              <div class="justify-self-end font-semibold">
+                {% if request.round_trip %} Yes
+                {% else %} No
                 {% endif %}
               </div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Reason</div>
+              <div class="justify-self-end font-semibold">{{ request.reason }}</div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Reviewed by</div>
+              <div class="justify-self-end font-semibold">{{ request.reviewed_by }}</div>
+            </li>
+            <li class="list-row">
+              <div class="opacity-80">Status</div>
+              {% if request.approved %}
+              <div class="justify-self-end badge badge-soft badge-success">Approved</div>
+              {% else %}
+              <div class="justify-self-end badge badge-soft badge-error">Denied</div>
+              {% endif %}
             </li>
           </ul>
 
@@ -179,6 +173,9 @@
     {% endfor %}
   </ul>
 </div>
+{% endblock %}
+
+{% block socket %}
 <script>
   const socket = new WebSocket('ws://' + window.location.host + '/ws/request/');
 

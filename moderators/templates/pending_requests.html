@@ -20,8 +20,7 @@
       <input type="hidden" name="request_id" value="{{ request.id }}">
 
       <div class="card-body p-0">
-
-        <ul class="list">
+        <ul class="list text-right">
           <li class="p-4 pb-2 text-lg tracking-wide card-title justify-between">
             <h2 class="text-center self-center">Request to <strong class="text-gold">{{request.destination}}</strong></h2>
             <button type="button" class="btn btn-circle self-center" onclick="my_modal_{{ request.id }}.showModal()">
@@ -68,7 +67,7 @@
     <div class="modal-box">
       <h3 class="text-lg">Request to <strong class="text-gold">{{ request.destination }}</strong></h3>
 
-      <ul class="list">
+      <ul class="list text-right">
         <li class="list-row">
           <div class="opacity-80">From room</div>
           <div class="justify-self-end font-semibold">{{ request.origin }}</div>
@@ -155,7 +154,8 @@
       <dialog id="my_modal_{{ request.id }}" class="modal">
         <div class="modal-box">
           <h3 class="text-lg">Request to <strong class="text-gold">{{ request.destination }}</strong></h3>
-          <ul class="list">
+
+          <ul class="list text-right">
             <li class="list-row">
               <div class="opacity-80">From room</div>
               <div class="justify-self-end font-semibold">{{ request.origin }}</div>
@@ -209,6 +209,9 @@
     {% endfor %}
   </ul>
 </div>
+{% endblock %}
+
+{% block socket %}
 <script>
   const socket = new WebSocket('ws://' + window.location.host + '/ws/request/');
 
